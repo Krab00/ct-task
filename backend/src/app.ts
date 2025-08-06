@@ -1,9 +1,9 @@
 import express from 'express';
-import { configApp } from './config';
+import { setupApp } from './config';
 
 const app = express();
 
 export const initializeApp = async () => {
-  await configApp(app);
+  await setupApp(app);
   return app;
 };

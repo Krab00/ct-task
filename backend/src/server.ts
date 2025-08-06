@@ -8,8 +8,10 @@ const startServer = async () => {
   try {
     const app = await initializeApp();
 
-    app.listen(port,  () => {
-      console.log(`Server running in ${process.env.NODE_EV} on http://localhost:${port}`);
+    app.listen(port, () => {
+      console.log(
+        `Server running in ${process.env.NODE_ENV} on http://localhost:${port}`
+      );
     });
   } catch (error) {
     console.error('Failed to start server:', error);

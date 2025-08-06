@@ -22,5 +22,13 @@ export const setupEnvs = (): Env => {
   return {
     port: validatedEnv.PORT,
     env: validatedEnv.NODE_ENV,
+    db: {
+      host: validatedEnv.DB_HOST,
+      port: validatedEnv.DB_PORT,
+      database: validatedEnv.DB_NAME,
+      user: validatedEnv.DB_USER,
+      password: validatedEnv.DB_PASSWORD,
+      sync: validatedEnv.DB_SYNC,
+    },
   };
 };
