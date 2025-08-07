@@ -7,7 +7,7 @@ const defaultOptions: AutoRouteOptions = {
   controllersPath: 'src/features',
   routePrefix: '',
   recursive: true,
-  verbose: true
+  verbose: true,
 };
 
 export const autoRegisterRoutes = (options: Partial<AutoRouteOptions> = {}) => {
@@ -21,7 +21,7 @@ export const autoRegisterRoutes = (options: Partial<AutoRouteOptions> = {}) => {
 
       const controllerFiles = await glob(pattern, {
         cwd: process.cwd(),
-        absolute: true
+        absolute: true,
       });
 
       if (config.verbose) {
@@ -56,10 +56,12 @@ async function registerController(
     }
 
     const routePath = generateRoutePath(filePath, config);
-    app.use(routePath, router);
+    app.use(`${routePath}`, router);
 
     if (config.verbose) {
-      console.log(`Registered routes from ${path.basename(filePath)} at ${routePath}`);
+      console.log(
+        `Registered routes from ${path.basename(filePath)} at ${routePath}`
+      );
     }
   } catch (error) {
     console.error(`Failed to register controller ${filePath}:`, error);

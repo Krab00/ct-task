@@ -1,12 +1,4 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToMany,
-  OneToOne,
-} from 'typeorm';
+import { Entity, Column, OneToMany, OneToOne } from 'typeorm';
 import { OrderItemEntity } from './order-item.entity';
 import { ShipmentEntity } from './shipment.entity';
 import { OrderStatus } from './enums/order-status';
