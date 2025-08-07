@@ -1,8 +1,18 @@
 import { AppDataSource } from '@database/data-source';
 import { ProductEntity } from '@database/entities';
 import { Repository } from 'typeorm';
-import { ProductCreateDto, ProductCreateValidation } from './models';
-import { ValidationException, ConflictException } from '@core/exceptions';
+import {
+  ProductCreateDto,
+  ProductUpdateDto,
+  ProductCreateValidation,
+  ProductUpdateValidation,
+  ProductBase,
+} from './models';
+import {
+  ValidationException,
+  ConflictException,
+  NotFoundException,
+} from '@core/exceptions';
 import { PagingOptions, PagingResult } from '@core/models';
 import { calculatePaging, createPagingResult } from '@core/helpers';
 import { FileStorageService } from '@features/storage/application';
@@ -43,8 +53,9 @@ export class ProductsService {
       imageUrl = this.fileStorageService.generatePublicUrl(saveFilename);
     }
 
-    const { ...productWithoutImage } = value;
-    const saveData: ProductCreateDto = {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { image, ...productWithoutImage } = value;
+    const saveData = {
       ...productWithoutImage,
     };
 
@@ -67,5 +78,76 @@ export class ProductsService {
     });
 
     return createPagingResult(data, total, page, take);
+  }
+
+  async update(
+    productData: ProductUpdateDto,
+    fileName?: string
+  ): Promise<ProductEntity> {
+    const { error, value } = ProductUpdateValidation.validate(productData, {
+      abortEarly: false,
+      stripUnknown: true,
+    });
+
+    if (error) {
+      throw new ValidationException('Validation failed', error);
+    }
+
+    const existingProduct = await this.repository.findOne({
+      where: { id: value.id },
+    });
+
+    if (!existingProduct) {
+      throw new ConflictException(`Product with ID '${value.id}' not found`);
+    }
+
+    if (value.sku && value.sku !== existingProduct.sku) {
+      const duplicateSku = await this.repository.findOne({
+        where: { sku: value.sku },
+      });
+
+      if (duplicateSku) {
+        throw new ConflictException(
+          `Product with SKU '${value.sku}' already exists`
+        );
+      }
+    }
+
+    let imageUrl: string | undefined = undefined;
+    if (value.image && fileName) {
+      const saveFilename = await this.fileStorageService.saveImage(
+        value.image,
+        fileName
+      );
+      imageUrl = this.fileStorageService.generatePublicUrl(saveFilename);
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { id, image, ...updateData } = value;
+    const updateFields = { ...updateData };
+
+    if (imageUrl) {
+      updateFields.imageUrl = imageUrl;
+    }
+
+    await this.repository.update(id!, updateFields);
+
+    const updatedProduct = await this.repository.findOne({
+      where: { id },
+    });
+
+    return updatedProduct!;
+  }
+
+  async findBySku(sku: string): Promise<ProductBase> {
+    const result = await this.repository.findOne({
+      where: { sku },
+    });
+
+    if (!result) {
+      throw new NotFoundException();
+    }
+
+    return result;
   }
 }

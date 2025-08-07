@@ -1,5 +1,5 @@
 import Joi from 'joi';
-import { ProductCreateDto } from './product.dtos';
+import { ProductCreateDto, ProductUpdateDto } from './product.dtos';
 
 export const ProductCreateValidation = Joi.object<ProductCreateDto>({
   sku: Joi.string().trim().min(1).max(50).required().messages({
@@ -36,4 +36,19 @@ export const ProductCreateValidation = Joi.object<ProductCreateDto>({
   image: Joi.binary().optional().allow(null).messages({
     'binary.base': 'Image must be binary data',
   }),
+});
+
+export const ProductUpdateValidation = Joi.object<ProductUpdateDto>({
+  id: Joi.string().guid().required().messages({
+    'string.empty': 'ID cannot be empty',
+    'string.guid': 'ID must be a valid GUID',
+    'any.required': 'ID is required',
+  }),
+
+  sku: ProductCreateValidation.extract('sku').optional(),
+  name: ProductCreateValidation.extract('name').optional(),
+  description: ProductCreateValidation.extract('description'),
+  quantity: ProductCreateValidation.extract('quantity').optional(),
+  unitPrice: ProductCreateValidation.extract('unitPrice').optional(),
+  image: ProductCreateValidation.extract('image'),
 });

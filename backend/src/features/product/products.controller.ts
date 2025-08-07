@@ -1,7 +1,11 @@
 import { Router } from 'express';
 import { ProductsService } from './products.service';
-import { ProductCreateDto } from '@features/product/models/product.dtos';
+import {
+  ProductCreateDto,
+  ProductUpdateDto,
+} from '@features/product/models/product.dtos';
 import { asyncRouteHandler, uploadImage } from '@core/middlewares';
+import { mapRequestToProductDto } from './product.mapper';
 
 export const router = Router();
 const productsService = new ProductsService();
@@ -11,18 +15,43 @@ router.post(
   '/',
   uploadImage.single('image'),
   asyncRouteHandler(async (req, res) => {
-    const productCreate: ProductCreateDto = {
-      ...req.body,
-      quantity: req.body.quantity ? parseInt(req.body.quantity, 10) : 0,
-      unitPrice: req.body.unitPrice ? parseFloat(req.body.unitPrice) : 0,
-      image: req.file ? req.file.originalname : null,
-    };
+    const productCreate = mapRequestToProductDto(
+      req.body,
+      req.file
+    ) as ProductCreateDto;
 
     const result = await productsService.create(
       productCreate,
       req.file?.originalname || ''
     );
     return res.status(201).send(result);
+  })
+);
+
+// PUT Update Product
+router.put(
+  '/',
+  uploadImage.single('image'),
+  asyncRouteHandler(async (req, res) => {
+    const productUpdate = mapRequestToProductDto(
+      req.body,
+      req.file
+    ) as ProductUpdateDto;
+
+    const result = await productsService.update(
+      productUpdate,
+      req.file?.originalname
+    );
+    return res.status(200).send(result);
+  })
+);
+
+// GET Product by SKU
+router.get(
+  '/sku/:sku',
+  asyncRouteHandler(async (req, res) => {
+    const product = await productsService.findBySku(req.params.sku);
+    return res.status(200).send(product);
   })
 );
 
