@@ -2,13 +2,6 @@ import { AppDataSource } from '@database/data-source';
 import { ProductEntity } from '@database/entities';
 import { Repository } from 'typeorm';
 import {
-  ProductCreateDto,
-  ProductUpdateDto,
-  ProductCreateValidation,
-  ProductUpdateValidation,
-  ProductBase,
-} from './models';
-import {
   ValidationException,
   ConflictException,
   NotFoundException,
@@ -16,6 +9,13 @@ import {
 import { PagingOptions, PagingResult } from '@core/models';
 import { calculatePaging, createPagingResult } from '@core/helpers';
 import { FileStorageService } from '@features/storage/application';
+import {
+  ProductBase,
+  ProductCreateDto,
+  ProductCreateValidation,
+  ProductUpdateDto,
+  ProductUpdateValidation,
+} from '@features/product/models';
 
 export class ProductsService {
   protected readonly repository: Repository<ProductEntity> =

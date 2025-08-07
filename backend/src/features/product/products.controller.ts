@@ -1,15 +1,16 @@
 import { Router } from 'express';
-import { ProductsService } from './products.service';
 import {
   ProductCreateDto,
   ProductUpdateDto,
 } from '@features/product/models/product.dtos';
 import { asyncRouteHandler, uploadImage } from '@core/middlewares';
 import { mapRequestToProductDto } from './product.mapper';
+import { ProductsService } from '@features/product/application';
 
 export const router = Router();
 const productsService = new ProductsService();
 
+// DELETE Product
 router.delete(
   '/:id',
   asyncRouteHandler(async (req, res) => {
