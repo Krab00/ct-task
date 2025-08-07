@@ -5,14 +5,14 @@ import {
   ManyToOne,
   JoinColumn,
 } from 'typeorm';
-import { OrderEntity } from './order.entity';
+import { ShipmentEntity } from './shipment.entity';
 import { ProductEntity } from './product.entity';
 
 @Entity({
-  name: 'order_items',
+  name: 'shipment_items',
   schema: 'warehouse',
 })
-export class OrderItemEntity {
+export class ShipmentItemEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,17 +25,19 @@ export class OrderItemEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2 })
   totalPrice: number;
 
-  @ManyToOne(() => OrderEntity, order => order.items, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'orderId' })
-  order: OrderEntity;
+  @ManyToOne(() => ShipmentEntity, shipment => shipment.items, {
+    cascade: ['soft-remove'],
+  })
+  @JoinColumn({ name: 'shipmentId' })
+  shipment: ShipmentEntity;
 
   @Column({ type: 'uuid' })
-  orderId: number;
+  shipmentId: string;
 
-  @ManyToOne(() => ProductEntity, { onDelete: 'RESTRICT' })
+  @ManyToOne(() => ProductEntity)
   @JoinColumn({ name: 'productId' })
   product: ProductEntity;
 
-  @Column({ type: 'int' })
-  productId: number;
+  @Column({ type: 'uuid' })
+  productId: string;
 }
