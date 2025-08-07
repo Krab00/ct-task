@@ -10,6 +10,14 @@ import { mapRequestToProductDto } from './product.mapper';
 export const router = Router();
 const productsService = new ProductsService();
 
+router.delete(
+  '/:id',
+  asyncRouteHandler(async (req, res) => {
+    const result = await productsService.delete(req.params.id);
+    return res.status(200).json(result);
+  })
+);
+
 // POST Create Product
 router.post(
   '/',

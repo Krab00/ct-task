@@ -1,15 +1,7 @@
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  CreateDateColumn,
-  UpdateDateColumn,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
-import { OrderEntity } from './order.entity';
+import { Entity, Column, OneToMany } from 'typeorm';
 import { ShipmentStatus } from './enums/shipment-status';
 import { BaseEntity } from './base.entity';
+import { ShipmentItemEntity } from './shipment-item.entity';
 
 @Entity({
   name: 'shipments',
@@ -53,13 +45,8 @@ export class ShipmentEntity extends BaseEntity {
   @Column({ type: 'datetime', nullable: true })
   deliveredAt: Date;
 
-  @OneToOne(() => OrderEntity, order => order.shipment, { onDelete: 'CASCADE' })
-  @JoinColumn({ name: 'orderId' })
-  order: OrderEntity;
-
-  @Column({ type: 'uuid' })
-  orderId: string;
-
-  @Column({ type: 'int', nullable: true })
-  orderNumber: number;
+  @OneToMany(() => ShipmentItemEntity, shipmentItem => shipmentItem.shipment, {
+    cascade: ['soft-remove'],
+  })
+  items: ShipmentItemEntity[];
 }

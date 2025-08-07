@@ -139,6 +139,19 @@ export class ProductsService {
     return updatedProduct!;
   }
 
+  async delete(id: string): Promise<boolean> {
+    if (!id) {
+      throw new ValidationException('Missing id');
+    }
+
+    const result = await this.repository.softDelete({ id });
+    if (!result?.affected) {
+      throw new NotFoundException('No matching item');
+    }
+
+    return true;
+  }
+
   async findBySku(sku: string): Promise<ProductBase> {
     const result = await this.repository.findOne({
       where: { sku },
