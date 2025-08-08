@@ -1,0 +1,40 @@
+<mat-card *ngIf="viewModel$ |async as vm" class="position-relative">
+    <h2 class="title">{{ vm.title }}</h2>
+    <div class="spinner-container" *ngIf="vm.loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <form [formGroup]="form">
+        <div class="image-container">
+            <app-image-input formControlName="image"></app-image-input>
+        </div>
+        <mat-form-field appearance="legacy">
+            <mat-label>SKU</mat-label>
+            <input matInput placeholder="SKU" formControlName="sku">
+        </mat-form-field>
+        <mat-form-field appearance="legacy">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+            <mat-label>Quantity</mat-label>
+            <input matInput type="text" placeholder="Quantity" appNumbersOnly formControlName="quantity">
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+            <mat-label>Unit price</mat-label>
+            <input matInput type="text" placeholder="Unit price" appNumbersOnly [decimalPlaces]="2"
+                   formControlName="unitPrice">
+        </mat-form-field>
+
+        <mat-form-field appearance="legacy">
+            <mat-label>Description</mat-label>
+            <textarea matInput placeholder="Description" formControlName="description"></textarea>
+        </mat-form-field>
+    </form>
+    <div class="action-container">
+        <button mat-button (click)="goBack()">Cancel</button>
+        <button mat-button *ngIf="vm.isExisting" (click)="remove()">Remove</button>
+        <button mat-button color="primary" (click)="save()" [disabled]="vm.loading || form.invalid">Save</button>
+    </div>
+</mat-card>

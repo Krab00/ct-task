@@ -8,7 +8,7 @@ import {
 } from '@core/exceptions';
 import { PagingOptions, PagingResult } from '@core/models';
 import { calculatePaging, createPagingResult } from '@core/helpers';
-import { FileStorageService } from '@features/storage/application';
+import { FileStorageService } from '@shared/storage';
 import {
   ProductBase,
   ProductCreateDto,
@@ -71,7 +71,6 @@ export class ProductsService {
     options?: PagingOptions
   ): Promise<PagingResult<ProductEntity>> {
     const { skip, take, page } = calculatePaging(options);
-
     const [data, total] = await this.repository.findAndCount({
       skip,
       take,
@@ -98,7 +97,7 @@ export class ProductsService {
     });
 
     if (!existingProduct) {
-      throw new ConflictException(`Product with ID '${value.id}' not found`);
+      throw new NotFoundException(`Product with ID ${value.id} not found`);
     }
 
     if (value.sku && value.sku !== existingProduct.sku) {

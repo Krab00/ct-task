@@ -6,7 +6,9 @@ export abstract class BaseException extends Error {
     message: string,
     public readonly cause?: Error
   ) {
+
     super(message, { cause });
+    this.message = message;
     this.name = this.constructor.name;
     Error.captureStackTrace(this, this.constructor);
   }

@@ -68,7 +68,12 @@ router.get(
 router.get(
   '/',
   asyncRouteHandler(async (req, res) => {
-    const results = await productsService.fetchProducts();
+    const results = await productsService.fetchProducts({
+      page: req.query.page ? parseInt(req.query.page as string) : undefined,
+      take: req.query.pageSize
+        ? parseInt(req.query.pageSize as string)
+        : undefined,
+    });
     return res.status(200).send(results || []);
   })
 );

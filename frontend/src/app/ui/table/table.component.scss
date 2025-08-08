@@ -1,0 +1,14 @@
+app-table {
+  width: 100%;
+  table {
+    width: inherit;
+    &.selectable {
+      .mat-row {
+        cursor: pointer;
+        &:hover {
+          background-color: #cbcbcb;
+        }
+      }
+    }
+  }
+}

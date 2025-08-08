@@ -15,7 +15,7 @@ on the position in CloudTalk.
    ```bash
    docker-compose -f docker/docker-compose.yml up -d
    ```
-
+    
 2. The MySQL database will be available on `localhost:3306` with the following credentials:
     - Database: `warehouse`
     - Username: `wh_user`
@@ -26,6 +26,19 @@ on the position in CloudTalk.
     ```bash
        npm run migration:run
    ```
+
+4. Run local with
+    ```bash
+       npm run build 
+   ```
+   and then
+     ```bash
+       npm start 
+   ```
+
+## Disclaimers
+1. Disclaimer, secrets should not be saved in git.
+2. Services should be using DI or factory pattern with proper injection scope. Not to overcomplicate the application more I skipped it.
 
 ## Assignment
 

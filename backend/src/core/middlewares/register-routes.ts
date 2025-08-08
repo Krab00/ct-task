@@ -4,7 +4,7 @@ import path from 'path';
 import { AutoRouteOptions, ControllerModule } from '../models';
 
 const defaultOptions: AutoRouteOptions = {
-  controllersPath: 'src/features',
+  controllersPath: process.env.NODE_ENV === 'production' ? 'dist/features' : 'src/features',
   routePrefix: '',
   recursive: true,
   verbose: true,
@@ -15,9 +15,10 @@ export const autoRegisterRoutes = (options: Partial<AutoRouteOptions> = {}) => {
 
   return async (app: Express): Promise<void> => {
     try {
+      const extension = process.env.NODE_ENV === 'production' ? 'js' : 'ts';
       const pattern = config.recursive
-        ? `${config.controllersPath}/**/*.controller.ts`
-        : `${config.controllersPath}/*.controller.ts`;
+        ? `${config.controllersPath}/**/*.controller.${extension}`
+        : `${config.controllersPath}/*.controller.${extension}`;
 
       const controllerFiles = await glob(pattern, {
         cwd: process.cwd(),
@@ -86,7 +87,8 @@ function extractRouter(module: ControllerModule): Router | null {
 }
 
 function generateRoutePath(filePath: string, config: AutoRouteOptions): string {
-  const fileName = path.basename(filePath, '.controller.ts');
+  const extension = process.env.NODE_ENV === 'production' ? '.controller.js' : '.controller.ts';
+  const fileName = path.basename(filePath, extension);
 
   let routePath = `/${fileName}`;
 

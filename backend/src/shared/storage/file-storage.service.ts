@@ -3,11 +3,7 @@ import * as fs from 'fs/promises';
 import { v4 as uuidv4 } from 'uuid';
 
 export class FileStorageService {
-  private readonly uploadDir = path.join(
-    __dirname,
-    '../../../public',
-    'images'
-  );
+  private readonly uploadDir = path.join(__dirname, '../../public', 'images');
 
   constructor() {
     this.ensureUploadDirExists();

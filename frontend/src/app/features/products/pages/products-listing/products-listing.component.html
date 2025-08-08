@@ -1,0 +1,22 @@
+<div class="page-header">
+    <h2>Product listing</h2>
+    <button mat-mini-fab color="primary" (click)="addProduct()">
+        <mat-icon>add</mat-icon>
+    </button>
+</div>
+<div class="product-container position-relative" *ngIf="viewModel$ | async as vm">
+    <div class="spinner-container" *ngIf="vm.loading">
+        <mat-spinner></mat-spinner>
+    </div>
+    <div *ngIf="vm.hasItems">
+        <app-table  [config]="tableConfig" [items]="vm.items" (itemSelected)="goToProduct($event)"></app-table>
+        <mat-paginator [length]="vm.pagination.total"
+                       [pageSize]="vm.pagination.pageSize"
+                       [pageSizeOptions]="[5, 10, 25, 100]"
+                        (page)="changePaging($event)">
+        </mat-paginator>
+    </div>
+    <div *ngIf="!vm.hasItems">
+        <h1>No products found</h1>
+    </div>
+</div>

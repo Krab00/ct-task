@@ -18,11 +18,17 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "target": "es2020",
+    "skipLibCheck": true,
     "module": "es2020",
     "lib": [
       "es2020",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@core/*": ["src/app/core/*/index.ts"],
+      "@products/*": ["src/app/features/products/*/index.ts"],
+      "@ui/*": ["src/app/ui/*"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
