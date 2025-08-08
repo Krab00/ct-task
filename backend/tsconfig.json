@@ -23,7 +23,8 @@
       "@constants": ["constants/index.ts"],
       "@core/*": ["core/*"],
       "@database/*": ["database/*"],
-      "@features/*": ["features/*"]
+      "@features/*": ["features/*"],
+      "@shared/*": ["shared/*"],
     }
   },
   "include": [
