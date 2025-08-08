@@ -39,7 +39,6 @@ on the position in CloudTalk.
 ## Disclaimers
 1. Disclaimer, secrets should not be saved in git.
 2. Services should be using DI or factory pattern with proper injection scope. Not to overcomplicate the application more I skipped it.
-3. I know there are missing tests but I didnt have the time to set them up
 
 ## Assignment
 
