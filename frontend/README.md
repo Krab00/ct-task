@@ -2,6 +2,10 @@
 
 This repository serves as the scaffold of the application that is a part of the interview process for candidates attending on the position in CloudTalk.
 
+
+## Disclaimer
+1. Due to lack of time I didnt implement all of the tests. Only a showcase
+
 ## Assignment
 
 1. As a warehouse, we would like to have two main features
