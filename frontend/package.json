@@ -6,7 +6,10 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:file": "jest --testPathPattern",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "format": "prettier --write \"src/**/*.{ts,html,scss,css,json}\"",
@@ -38,7 +41,7 @@
     "@angular-eslint/template-parser": "14.4.0",
     "@angular/cli": "~14.2.9",
     "@angular/compiler-cli": "^14.2.0",
-    "@types/jasmine": "~4.0.0",
+    "@types/jest": "^30.0.0",
     "@typescript-eslint/eslint-plugin": "5.43.0",
     "@typescript-eslint/parser": "5.43.0",
     "eslint": "^8.28.0",
@@ -47,13 +50,37 @@
     "eslint-plugin-jsdoc": "^46.10.1",
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "eslint-plugin-prettier": "^5.5.4",
-    "jasmine-core": "~4.3.0",
-    "karma": "~6.4.0",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage": "~2.2.0",
-    "karma-jasmine": "~5.1.0",
-    "karma-jasmine-html-reporter": "~2.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^30.0.5",
+    "jest-preset-angular": "^13.1.6",
     "prettier": "^3.6.2",
     "typescript": "~4.7.2"
+  },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "setupFilesAfterEnv": ["<rootDir>/setup-jest.ts"],
+    "testEnvironment": "jsdom",
+    "collectCoverage": false,
+    "coverageDirectory": "coverage",
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!src/main.ts",
+      "!src/polyfills.ts",
+      "!src/**/*.d.ts",
+      "!src/**/index.ts"
+    ],
+    "moduleNameMapper": {
+      "^@core/models$": "<rootDir>/src/app/core/models/index.ts",
+      "^@core/(.*)$": "<rootDir>/src/app/core/$1",
+      "^@products/models$": "<rootDir>/src/app/features/products/models/index.ts",
+      "^@products/infrastructure$": "<rootDir>/src/app/features/products/infrastructure/index.ts",
+      "^@products/pages$": "<rootDir>/src/app/features/products/pages/index.ts",
+      "^@products/(.*)$": "<rootDir>/src/app/features/products/$1",
+      "^@ui/(.*)$": "<rootDir>/src/app/ui/$1",
+      "^src/environments/environment$": "<rootDir>/src/environments/environment.ts"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/src/test.ts"
+    ]
   }
 }

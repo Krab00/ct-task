@@ -47,6 +47,5 @@ export class ProductsListingComponent {
 
   changePaging(pageEv: PageEvent) {
     this.store.pageChange(pageEv);
-
   }
 }
