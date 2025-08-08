@@ -1,0 +1,23 @@
+<input
+    #fileInput
+    type="file"
+    accept="image/*"
+    [disabled]="disabled"
+    (change)="onFileSelected($event)"
+    style="display: none"
+/>
+
+<button
+        mat-raised-button
+        color="primary"
+        type="button"
+        [disabled]="disabled"
+        (click)="fileInput.click()"
+>
+    <mat-icon>upload</mat-icon>
+    {{ selectedFileName || 'Choose Image' }}
+</button>
+<div *ngIf="existingImageUrl && !selectedFileName">
+    <h4>Current image</h4>
+    <img [src]="existingImageUrl" alt="current image">
+</div>

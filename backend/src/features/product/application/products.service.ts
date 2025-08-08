@@ -71,7 +71,6 @@ export class ProductsService {
     options?: PagingOptions
   ): Promise<PagingResult<ProductEntity>> {
     const { skip, take, page } = calculatePaging(options);
-
     const [data, total] = await this.repository.findAndCount({
       skip,
       take,

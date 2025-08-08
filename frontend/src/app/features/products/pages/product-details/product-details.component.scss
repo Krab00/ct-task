@@ -1,0 +1,26 @@
+:host {
+  display: flex;
+
+  .title {
+    text-align: left;
+  }
+
+  mat-card {
+    flex: 1;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .image-container {
+    padding: 10px 0;
+  }
+
+  .action-container {
+    margin-top: 24px;
+    display: flex;
+    justify-content: flex-end;
+  }
+}

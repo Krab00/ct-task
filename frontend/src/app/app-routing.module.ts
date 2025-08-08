@@ -1,16 +1,14 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {ItemsListComponent} from "./pages/items-list/items-list.component";
+import { AppRoutes } from '@core/models';
 
 const routes: Routes = [
   {
-    path: '',
-    component: ItemsListComponent
-  }
+    path: AppRoutes.Products,
+    loadChildren: () => import('@products/pages').then(m => m.productsRoutes),
+  },
+  {
+    path: '**',
+    redirectTo: AppRoutes.Products,
+  },
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule { }
+export const appRouting = RouterModule.forRoot(routes);

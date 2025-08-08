@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .product-container {
+    min-height: 25dvh;
+  }
+
+  h1 {
+    text-align: center;
+  }
+}
