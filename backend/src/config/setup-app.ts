@@ -14,7 +14,6 @@ const setupCors = (app: Express) => {
     credentials: false,
   };
   app.use(cors(corsOptions));
-  // app.options('*', cors(corsOptions));
 };
 
 export const setupApp = async (app: Express) => {

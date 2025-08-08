@@ -1,7 +1,6 @@
 export interface PagingOptions {
   page?: number;
   take?: number;
-  skip?: number;
 }
 
 export interface PagingResult<T> {

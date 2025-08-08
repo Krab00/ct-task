@@ -10,7 +10,6 @@ import { ProductsService } from '@features/product/application';
 export const router = Router();
 const productsService = new ProductsService();
 
-// DELETE Product
 router.delete(
   '/:id',
   asyncRouteHandler(async (req, res) => {
@@ -19,7 +18,6 @@ router.delete(
   })
 );
 
-// POST Create Product
 router.post(
   '/',
   uploadImage.single('image'),
@@ -37,7 +35,6 @@ router.post(
   })
 );
 
-// PUT Update Product
 router.put(
   '/',
   uploadImage.single('image'),
@@ -55,7 +52,6 @@ router.put(
   })
 );
 
-// GET Product by SKU
 router.get(
   '/sku/:sku',
   asyncRouteHandler(async (req, res) => {
@@ -64,7 +60,6 @@ router.get(
   })
 );
 
-// GET Products listing
 router.get(
   '/',
   asyncRouteHandler(async (req, res) => {

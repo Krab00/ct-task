@@ -13,7 +13,7 @@ export const calculatePaging = (
     MAX_PAGE_SIZE,
     Math.max(1, options.take || DEFAULT_PAGE_SIZE)
   );
-  const skip = options.skip !== undefined ? options.skip : (page - 1) * take;
+  const skip = (page - 1) * take;
 
   return { skip, take, page };
 };
